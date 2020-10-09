@@ -69,3 +69,22 @@ table.pop = table.pop or function(t, k)
   t[k] = nil
   return val
 end
+
+if TELESCOPE_DEBUG then
+  if not _OldSetLines then
+    _OldSetLines = vim.api.nvim_buf_set_lines
+  end
+
+  vim.api.nvim_buf_set_lines = function(bufnr, start, finish, _, lines)
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      error(debug.traceback('invalid bufnr'))
+    end
+
+    require('telescope.log').file_info({bufnr, start, finish, lines}, {info_level = 4})
+
+    local ok, msg = pcall(_OldSetLines, bufnr, start, finish, false, lines)
+    if not ok then
+      error(debug.traceback(msg))
+    end
+  end
+end

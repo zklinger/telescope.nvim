@@ -389,16 +389,9 @@ function Picker:find()
       return
     end
 
+    self.manager = EntryManager:new(self.max_results, self.entry_adder, self.stats)
+
     local prompt = vim.api.nvim_buf_get_lines(prompt_bufnr, first_line, last_line, false)[1]:sub(#prompt_prefix)
-
-    -- TODO: Statusbar possibilities here.
-    -- vim.api.nvim_buf_set_virtual_text(prompt_bufnr, 0, 1, { {"hello", "Error"} }, {})
-
-    -- TODO: Entry manager should have a "bulk" setter. This can prevent a lot of redraws from display
-
-    self.manager = EntryManager:new(self.max_results, self.entry_adder)
-    -- self.manager = EntryManager:new(self.max_results, self.entry_adder, self.stats)
-
     local process_result = function(entry)
       self:_increment("processed")
 

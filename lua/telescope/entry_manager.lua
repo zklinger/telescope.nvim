@@ -106,6 +106,8 @@ function EntryManager:insert(picker, index, entry)
     index = #self.entry_state + 1
   end
 
+  -- TODO: Entry manager should have a "bulk" setter. This can prevent a lot of redraws from display
+
   -- To insert something, we place at the next available index (or specified index)
   -- and then shift all the corresponding items one place.
   local next_entry, last_score
