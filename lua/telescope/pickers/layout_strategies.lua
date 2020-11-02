@@ -72,8 +72,6 @@ layout_strategies.horizontal = function(self, max_columns, max_lines)
   local results = initial_options.results
   local prompt = initial_options.prompt
 
-  -- TODO: Test with 120 width terminal
-  -- TODO: Test with self.width
   local width_padding = resolve.resolve_width(layout_config.width_padding or function(_, cols)
     if cols < self.preview_cutoff then
       return 2
@@ -301,6 +299,8 @@ layout_strategies.current_buffer = function(self, _, _)
   local window_width = vim.api.nvim_win_get_width(0)
   local window_height = vim.api.nvim_win_get_height(0)
 
+  local layout_config = self.layout_config or {}
+
   local preview = initial_options.preview
   local results = initial_options.results
   local prompt = initial_options.prompt
@@ -317,19 +317,24 @@ layout_strategies.current_buffer = function(self, _, _)
 
   -- Height
   local height_padding = 3
+  local height = window_height - height_padding * 2
 
-  results.height = 10
   prompt.height = 1
 
-  -- The last 2 * 2 is for the extra borders
+  local preview_total = 0
+  preview.height = 0
   if self.previewer then
-    preview.height = window_height - results.height - prompt.height - 2 * 2 - height_padding * 2
-  else
-    results.height = window_height - prompt.height - 2 - height_padding * 2
+    preview.height = resolve.resolve_height(
+      layout_config.preview_height or (height - 15)
+    )(self, width, height)
+
+    preview_total = preview.height + 2
   end
 
+  results.height = height - preview_total - 3
 
   local win_position = vim.api.nvim_win_get_position(0)
+  P(win_position)
 
   local line = win_position[1]
   if self.previewer then
@@ -338,11 +343,14 @@ layout_strategies.current_buffer = function(self, _, _)
     prompt.line = results.line + results.height + 2
   else
     results.line = height_padding + line
-    prompt.line = results.line + results.height + 2
+    prompt.line = results.line + results.height + 1
   end
 
   local col = win_position[2] + width_padding
   preview.col, results.col, prompt.col = col, col, col
+
+  P(results)
+  P(prompt)
 
   return {
     preview = preview.width > 0 and preview,

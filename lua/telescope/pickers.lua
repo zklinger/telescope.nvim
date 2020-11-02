@@ -95,11 +95,7 @@ function Picker:new(opts)
     ) or {},
 
     window = {
-      -- TODO: This won't account for different layouts...
-      -- TODO: If it's between 0 and 1, it's a percetnage.
-      -- TODO: If its's a single number, it's always that many columsn
-      -- TODO: If it's a list, of length 2, then it's a range of min to max?
-      height = get_default(opts.height, 0.8),
+      height = get_default(opts.height, config.values.height),
       width = get_default(opts.width, config.values.width),
 
       get_preview_width = get_default(opts.preview_width, config.values.get_preview_width),

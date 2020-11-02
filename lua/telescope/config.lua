@@ -39,7 +39,9 @@ function config.set_defaults(defaults)
   set("layout_strategy", "horizontal")
   set("layout_defaults", {})
 
-  set("width", 0.75)
+  set("height", 0.95)
+  set("width", .99)
+
   set("winblend", 0)
   set("prompt_position", "bottom")
   set("preview_cutoff", 120)
