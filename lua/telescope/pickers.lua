@@ -12,9 +12,9 @@ local mappings = require('telescope.mappings')
 local state = require('telescope.state')
 local utils = require('telescope.utils')
 
-local layout_strategies = require('telescope.pickers.layout_strategies')
 local entry_display = require('telescope.pickers.entry_display')
 local p_highlights = require('telescope.pickers.highlights')
+local p_layouts = require('telescope.pickers.layout_strategies')
 local p_scroller = require('telescope.pickers.scroller')
 
 local EntryManager = require('telescope.entry_manager')
@@ -175,7 +175,7 @@ end
 
 function Picker:get_window_options(max_columns, max_lines)
   local layout_strategy = self.layout_strategy
-  local getter = layout_strategies[layout_strategy]
+  local getter = p_layouts[layout_strategy]
 
   if not getter then
     error("Not a valid layout strategy: " .. layout_strategy)
@@ -369,6 +369,9 @@ function Picker:find()
   local prompt_border_win = prompt_opts.border and prompt_opts.border.win_id
   if prompt_border_win then vim.api.nvim_win_set_option(prompt_border_win, 'winhl', 'Normal:TelescopePromptBorder') end
 
+  self.max_results = popup_opts.results.height
+  popup_opts = nil
+
   -- Prompt prefix
   local prompt_prefix = self.prompt_prefix
   if prompt_prefix ~= '' then
@@ -387,8 +390,6 @@ function Picker:find()
   -- vim.cmd [[redraw]]
 
   -- First thing we want to do is set all the lines to blank.
-  self.max_results = popup_opts.results.height
-
   vim.api.nvim_buf_set_lines(results_bufnr, 0, self.max_results, false, utils.repeated_table(self.max_results, ""))
 
   local selection_strategy = self.selection_strategy or 'reset'
