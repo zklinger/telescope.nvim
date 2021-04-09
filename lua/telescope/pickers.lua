@@ -77,6 +77,8 @@ function Picker:new(opts)
     previewer = opts.previewer,
     default_selection_index = opts.default_selection_index,
 
+    get_selection_window = get_default(opts.get_selection_window, config.values.get_selection_window),
+
     cwd = opts.cwd,
 
     _find_id = 0,
