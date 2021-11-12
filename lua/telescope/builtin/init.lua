@@ -366,6 +366,7 @@ builtin.jumplist = require_on_exported_call("telescope.builtin.internal").jumpli
 --- Lists LSP references for word under the cursor, jumps to reference on `<cr>`
 ---@param opts table: options to pass to the picker
 ---@field timeout number: timeout for the sync call (default: 10000)
+---@field include_declaration boolean: include symbol declaration in the lsp references (default: false)
 builtin.lsp_references = require_on_exported_call("telescope.builtin.lsp").references
 
 --- Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope
