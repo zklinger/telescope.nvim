@@ -15,7 +15,7 @@ local lsp = {}
 lsp.references = function(opts)
   local params = vim.lsp.util.make_position_params()
   params.context = {
-    includeDeclaration = vim.F.if_nil(opts.include_declaration, false)
+    includeDeclaration = vim.F.if_nil(opts.include_declaration, false),
   }
 
   local results_lsp, err = vim.lsp.buf_request_sync(0, "textDocument/references", params, opts.timeout or 10000)
