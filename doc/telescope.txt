@@ -1276,7 +1276,10 @@ builtin.lsp_references({opts})                      *builtin.lsp_references()*
         {opts} (table)  options to pass to the picker
 
     Options: ~
-        {timeout} (number)  timeout for the sync call (default: 10000)
+        {timeout}             (number)   timeout for the sync call (default:
+                                         10000)
+        {include_declaration} (boolean)  include symbol declaration in the lsp
+                                         references (default: false)
 
 
 builtin.lsp_definitions({opts})                    *builtin.lsp_definitions()*
@@ -2367,7 +2370,7 @@ work and make it really easy create new previewers.
 
 Furthermore, there are a collection of previewers already defined which can be
 used for every picker, as long as the entries of the picker provide the
-necessary fields. The more important ones are
+necessary fields. The more important once are
   - `previewers.cat`
   - `previewers.vimgrep`
   - `previewers.qflist`
