@@ -886,11 +886,14 @@ builtin.git_commits({opts})                            *builtin.git_commits()*
         {opts} (table)  options to pass to the picker
 
     Options: ~
-        {cwd}          (string)   specify the path of the repo
-        {use_git_root} (boolean)  if we should use git root as cwd or the cwd
-                                  (important for submodule) (default: true)
-        {git_command}  (table)    command that will be exectued.
-                                  {"git","log","--pretty=oneline","--abbrev-commit","--","."}
+        {cwd}           (string)   specify the path of the repo
+        {use_git_root}  (boolean)  if we should use git root as cwd or the cwd
+                                   (important for submodule) (default: true)
+        {git_command}   (table)    command that will be exectued.
+                                   {"git","log","--pretty=oneline","--abbrev-commit","--","."}
+        {context_lines} (number)   specify the number of context lines
+                                   surrounding the changes in the diff output
+                                   (default: 3)
 
 
 builtin.git_bcommits({opts})                          *builtin.git_bcommits()*
@@ -906,13 +909,16 @@ builtin.git_bcommits({opts})                          *builtin.git_bcommits()*
         {opts} (table)  options to pass to the picker
 
     Options: ~
-        {cwd}          (string)   specify the path of the repo
-        {use_git_root} (boolean)  if we should use git root as cwd or the cwd
-                                  (important for submodule) (default: true)
-        {current_file} (string)   specify the current file that should be used
-                                  for bcommits (default: current buffer)
-        {git_command}  (table)    command that will be exectued.
-                                  {"git","log","--pretty=oneline","--abbrev-commit"}
+        {cwd}           (string)   specify the path of the repo
+        {use_git_root}  (boolean)  if we should use git root as cwd or the cwd
+                                   (important for submodule) (default: true)
+        {current_file}  (string)   specify the current file that should be
+                                   used for bcommits (default: current buffer)
+        {git_command}   (table)    command that will be exectued.
+                                   {"git","log","--pretty=oneline","--abbrev-commit"}
+        {context_lines} (number)   specify the number of context lines
+                                   surrounding the changes in the diff output
+                                   (default: 3)
 
 
 builtin.git_branches({opts})                          *builtin.git_branches()*
@@ -950,12 +956,15 @@ builtin.git_status({opts})                              *builtin.git_status()*
         {opts} (table)  options to pass to the picker
 
     Options: ~
-        {cwd}          (string)   specify the path of the repo
-        {use_git_root} (boolean)  if we should use git root as cwd or the cwd
-                                  (important for submodule) (default: true)
-        {git_icons}    (table)    string -> string. Matches name with icon
-                                  (see source code, make_entry.lua
-                                  git_icon_defaults)
+        {cwd}           (string)   specify the path of the repo
+        {use_git_root}  (boolean)  if we should use git root as cwd or the cwd
+                                   (important for submodule) (default: true)
+        {git_icons}     (table)    string -> string. Matches name with icon
+                                   (see source code, make_entry.lua
+                                   git_icon_defaults)
+        {context_lines} (number)   specify the number of context lines
+                                   surrounding the changes in the diff output
+                                   (default: 3)
 
 
 builtin.git_stash({opts})                                *builtin.git_stash()*
@@ -968,9 +977,12 @@ builtin.git_stash({opts})                                *builtin.git_stash()*
         {opts} (table)  options to pass to the picker
 
     Options: ~
-        {cwd}          (string)   specify the path of the repo
-        {use_git_root} (boolean)  if we should use git root as cwd or the cwd
-                                  (important for submodule) (default: true)
+        {cwd}           (string)   specify the path of the repo
+        {use_git_root}  (boolean)  if we should use git root as cwd or the cwd
+                                   (important for submodule) (default: true)
+        {context_lines} (number)   specify the number of context lines
+                                   surrounding the changes in the diff output
+                                   (default: 3)
 
 
 builtin.builtin({opts})                                    *builtin.builtin()*

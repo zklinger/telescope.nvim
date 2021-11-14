@@ -16,6 +16,12 @@ local ns_previewer = vim.api.nvim_create_namespace "telescope.previewers"
 
 local has_file = 1 == vim.fn.executable "file"
 
+local function git_context_arg(opts)
+  opts = opts or {}
+  context_lines = vim.F.if_nil(opts.context_lines, 3)
+  return "--unified=" .. context_lines
+end
+
 -- TODO(fdschmidt93) switch to Job once file_maker callbacks get cleaned up with plenary async
 -- avoids SIGABRT from utils.get_os_command_output due to vim.time in fs_stat cb
 local function capture(cmd, raw)
@@ -695,11 +701,15 @@ previewers.git_stash_diff = defaulter(function(opts)
     end,
 
     define_preview = function(self, entry, _)
-      putils.job_maker({ "git", "--no-pager", "stash", "show", "-p", entry.value }, self.state.bufnr, {
-        value = entry.value,
-        bufname = self.state.bufname,
-        cwd = opts.cwd,
-      })
+      putils.job_maker(
+        { "git", "--no-pager", "stash", "show", "-p", git_context_arg(opts), entry.value },
+        self.state.bufnr,
+        {
+          value = entry.value,
+          bufname = self.state.bufname,
+          cwd = opts.cwd,
+        }
+      )
       putils.regex_highlighter(self.state.bufnr, "diff")
     end,
   }
@@ -714,7 +724,7 @@ previewers.git_commit_diff_to_parent = defaulter(function(opts)
     end,
 
     define_preview = function(self, entry, status)
-      local cmd = { "git", "--no-pager", "diff", entry.value .. "^!" }
+      local cmd = { "git", "--no-pager", "diff", git_context_arg(opts), entry.value .. "^!" }
       if opts.current_file then
         table.insert(cmd, "--")
         table.insert(cmd, opts.current_file)
@@ -743,7 +753,7 @@ previewers.git_commit_diff_to_head = defaulter(function(opts)
     end,
 
     define_preview = function(self, entry, status)
-      local cmd = { "git", "--no-pager", "diff", "--cached", entry.value }
+      local cmd = { "git", "--no-pager", "diff", "--cached", git_context_arg(opts), entry.value }
       if opts.current_file then
         table.insert(cmd, "--")
         table.insert(cmd, opts.current_file)
@@ -772,7 +782,7 @@ previewers.git_commit_diff_as_was = defaulter(function(opts)
     end,
 
     define_preview = function(self, entry, status)
-      local cmd = { "git", "--no-pager", "show" }
+      local cmd = { "git", "--no-pager", "show", git_context_arg(opts) }
       local cf = opts.current_file and Path:new(opts.current_file):make_relative(opts.cwd)
       local value = cf and (entry.value .. ":" .. cf) or entry.value
       local ft = cf and pfiletype.detect(value) or "diff"
@@ -844,7 +854,7 @@ previewers.git_file_diff = defaulter(function(opts)
           winid = self.state.winid,
         })
       else
-        putils.job_maker({ "git", "--no-pager", "diff", entry.value }, self.state.bufnr, {
+        putils.job_maker({ "git", "--no-pager", "diff", git_context_arg(opts), entry.value }, self.state.bufnr, {
           value = entry.value,
           bufname = self.state.bufname,
           cwd = opts.cwd,

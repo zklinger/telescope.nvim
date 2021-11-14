@@ -159,6 +159,7 @@ builtin.git_files = require_on_exported_call("telescope.builtin.git").files
 ---@field cwd string: specify the path of the repo
 ---@field use_git_root boolean: if we should use git root as cwd or the cwd (important for submodule) (default: true)
 ---@field git_command table: command that will be exectued. {"git","log","--pretty=oneline","--abbrev-commit","--","."}
+---@field context_lines number: specify the number of context lines surrounding the changes in the diff output (default: 3)
 builtin.git_commits = require_on_exported_call("telescope.builtin.git").commits
 
 --- Lists commits for current buffer with diff preview
@@ -172,6 +173,7 @@ builtin.git_commits = require_on_exported_call("telescope.builtin.git").commits
 ---@field use_git_root boolean: if we should use git root as cwd or the cwd (important for submodule) (default: true)
 ---@field current_file string: specify the current file that should be used for bcommits (default: current buffer)
 ---@field git_command table: command that will be exectued. {"git","log","--pretty=oneline","--abbrev-commit"}
+---@field context_lines number: specify the number of context lines surrounding the changes in the diff output (default: 3)
 builtin.git_bcommits = require_on_exported_call("telescope.builtin.git").bcommits
 
 --- List branches for current directory, with output from `git log --oneline` shown in the preview window
@@ -196,6 +198,7 @@ builtin.git_branches = require_on_exported_call("telescope.builtin.git").branche
 ---@field cwd string: specify the path of the repo
 ---@field use_git_root boolean: if we should use git root as cwd or the cwd (important for submodule) (default: true)
 ---@field git_icons table: string -> string. Matches name with icon (see source code, make_entry.lua git_icon_defaults)
+---@field context_lines number: specify the number of context lines surrounding the changes in the diff output (default: 3)
 builtin.git_status = require_on_exported_call("telescope.builtin.git").status
 
 --- Lists stash items in current repository
@@ -204,6 +207,7 @@ builtin.git_status = require_on_exported_call("telescope.builtin.git").status
 ---@param opts table: options to pass to the picker
 ---@field cwd string: specify the path of the repo
 ---@field use_git_root boolean: if we should use git root as cwd or the cwd (important for submodule) (default: true)
+---@field context_lines number: specify the number of context lines surrounding the changes in the diff output (default: 3)
 builtin.git_stash = require_on_exported_call("telescope.builtin.git").stash
 
 --
