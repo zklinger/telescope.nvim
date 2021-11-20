@@ -729,6 +729,7 @@ previewers.git_commit_diff_to_parent = defaulter(function(opts)
         end,
       })
       putils.regex_highlighter(self.state.bufnr, "diff")
+
     end,
   }
 end, {})
@@ -1068,24 +1069,25 @@ end, {})
 
 previewers.file_size = defaulter(function(opts)
   return previewers.new_buffer_previewer {
-    title = "Shout Preview",
+    title = "File Size Preview",
     get_buffer_by_name = function(_, entry)
       return entry.value 
     end,
 
     define_preview = function(self, entry, status)
-      local cmd = {
-        "ls",
-        "-l",
-        "-h",
-        entry.value,
-      }
+      print(vim.inspect(entry))
+      local cmd = { "ls", "-l" }
+      if entry.human_readable then
+        table.insert(cmd, "-h")
+      end
+      table.insert(cmd, entry.value)
 
       putils.job_maker(cmd, self.state.bufnr, {
         value = entry.value,
         bufname = self.state.bufname,
         cwd = opts.cwd,
         callback = function(bufnr, content)
+          print(vim.inspect(content))
           if not content then
             return
           end

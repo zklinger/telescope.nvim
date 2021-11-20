@@ -619,6 +619,15 @@ actions.git_staging_toggle = function(prompt_bufnr)
   -- -- end
 end
 
+actions.file_size_toggle = function(prompt_bufnr)
+  local selection = action_state.get_selected_entry()
+   if selection == nil then
+     print "[telescope] Nothing currently selected"
+     return
+   end
+   selection.human_readable = not selection.human_readable
+end
+
 local entry_to_qf = function(entry)
   local text = entry.text
 

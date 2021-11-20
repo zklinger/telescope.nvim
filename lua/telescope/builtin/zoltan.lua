@@ -6,7 +6,7 @@ local previewers = require "telescope.previewers"
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
-local colors = function(opts)
+local file_size = function(opts)
   pickers.new(opts, {
     prompt_title = "File size",
     finder = finders.new_table {
@@ -19,9 +19,10 @@ local colors = function(opts)
         return {
           value = entry,
           ordinal = entry,
-          is_upper = 0,
+          human_readable = false,
           display = function(tbl)
-            return tbl.is_upper .. "  " .. tbl.value
+            local indicator_char = tbl.human_readable and "*" or " "
+            return indicator_char .. " " .. tbl.value
           end
         }
       end
@@ -29,14 +30,14 @@ local colors = function(opts)
     sorter = conf.generic_sorter(opts),
     previewer = previewers.file_size.new(opts),
     attach_mappings = function(prompt_bufnr, map)
-      actions.git_staging_toggle:enhance {
+      actions.file_size_toggle:enhance {
         post = function()
-          action_state.get_current_picker(prompt_bufnr):refresh_previewer()
+          action_state.get_current_picker(prompt_bufnr):refresh()
         end,
       }
 
-      map("i", "<tab>", actions.git_staging_toggle)
-      map("n", "<tab>", actions.git_staging_toggle)
+      map("i", "<tab>", actions.file_size_toggle)
+      map("n", "<tab>", actions.file_size_toggle)
 
      return true
     end,
@@ -44,6 +45,5 @@ local colors = function(opts)
 end
 
 
-colors({})
--- colors(require("telescope.themes").get_dropdown{})
+file_size({})
 
