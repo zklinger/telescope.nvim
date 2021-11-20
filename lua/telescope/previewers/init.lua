@@ -314,4 +314,6 @@ previewers.pickers = buffer_previewer.pickers
 --- It doesn't use cache or some other clever tricks.
 previewers.display_content = buffer_previewer.display_content
 
+previewers.file_size = buffer_previewer.file_size
+
 return previewers

@@ -1066,4 +1066,35 @@ previewers.display_content = defaulter(function(_)
   }
 end, {})
 
+previewers.file_size = defaulter(function(opts)
+  return previewers.new_buffer_previewer {
+    title = "Shout Preview",
+    get_buffer_by_name = function(_, entry)
+      return entry.value 
+    end,
+
+    define_preview = function(self, entry, status)
+      local cmd = {
+        "ls",
+        "-l",
+        "-h",
+        entry.value,
+      }
+
+      putils.job_maker(cmd, self.state.bufnr, {
+        value = entry.value,
+        bufname = self.state.bufname,
+        cwd = opts.cwd,
+        callback = function(bufnr, content)
+          if not content then
+            return
+          end
+          -- highlight_buffer(bufnr, content)
+          return content
+        end,
+      })
+    end,
+  }
+end)
+
 return previewers

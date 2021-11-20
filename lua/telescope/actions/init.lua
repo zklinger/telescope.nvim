@@ -598,20 +598,25 @@ actions.git_checkout_current_buffer = function(prompt_bufnr)
   utils.get_os_command_output({ "git", "checkout", selection.value, "--", selection.file }, cwd)
 end
 
+actions.my_toggle = function(prompt_bufnr)
+  local selection = action_state.get_selected_entry()
+end
+
 --- Stage/unstage selected file
 ---@param prompt_bufnr number: The prompt bufnr
 actions.git_staging_toggle = function(prompt_bufnr)
-  local cwd = action_state.get_current_picker(prompt_bufnr).cwd
-  local selection = action_state.get_selected_entry()
-  if selection == nil then
-    print "[telescope] Nothing currently selected"
-    return
-  end
-  if selection.status:sub(2) == " " then
-    utils.get_os_command_output({ "git", "restore", "--staged", selection.value }, cwd)
-  else
-    utils.get_os_command_output({ "git", "add", selection.value }, cwd)
-  end
+  -- local cwd = action_state.get_current_picker(prompt_bufnr).cwd
+   local selection = action_state.get_selected_entry()
+   if selection == nil then
+     print "[telescope] Nothing currently selected"
+     return
+   end
+   selection.is_upper = selection.is_upper + 1
+  -- -- if selection.status:sub(2) == " " then
+  -- --   utils.get_os_command_output({ "git", "restore", "--staged", selection.value }, cwd)
+  -- -- else
+  -- --   utils.get_os_command_output({ "git", "add", selection.value }, cwd)
+  -- -- end
 end
 
 local entry_to_qf = function(entry)
@@ -1062,6 +1067,7 @@ actions.which_key = function(prompt_bufnr, opts)
     end)
   end
 end
+
 
 -- ==================================================
 -- Transforms modules and sets the correct metatables.
