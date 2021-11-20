@@ -1075,7 +1075,6 @@ previewers.file_size = defaulter(function(opts)
     end,
 
     define_preview = function(self, entry, status)
-      print(vim.inspect(entry))
       local cmd = { "ls", "-l" }
       if entry.human_readable then
         table.insert(cmd, "-h")
@@ -1083,15 +1082,11 @@ previewers.file_size = defaulter(function(opts)
       table.insert(cmd, entry.value)
 
       putils.job_maker(cmd, self.state.bufnr, {
-        value = entry.value,
-        bufname = self.state.bufname,
-        cwd = opts.cwd,
         callback = function(bufnr, content)
           print(vim.inspect(content))
           if not content then
             return
           end
-          -- highlight_buffer(bufnr, content)
           return content
         end,
       })

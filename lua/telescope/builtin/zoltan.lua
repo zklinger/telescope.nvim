@@ -19,7 +19,7 @@ local file_size = function(opts)
         return {
           value = entry,
           ordinal = entry,
-          human_readable = false,
+          human_readable = true,
           display = function(tbl)
             local indicator_char = tbl.human_readable and "*" or " "
             return indicator_char .. " " .. tbl.value
